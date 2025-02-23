@@ -1,0 +1,193 @@
+REPLIT AI AGENT INSTRUCTION SET
+==============================
+
+DEVELOPMENT REQUIREMENTS
+-----------------------
+Framework: ASP.NET Core 8.0
+Language: C# latest stable version
+Database: SQL Server
+ORM: Entity Framework Core
+Authentication: ASP.NET Core Identity
+Frontend: Razor Pages + Bootstrap 5
+
+MANDATORY IMPLEMENTATION STANDARDS
+--------------------------------
+1. USE ASP.NET CORE MVC PATTERN
+   - Strictly follow Model-View-Controller architecture
+   - Implement repository pattern
+   - Use dependency injection
+
+2. SECURITY REQUIREMENTS
+   - Implement ASP.NET Core Identity
+   - Use secure password hashing
+   - Enable HTTPS
+   - Implement proper authorization
+
+3. DATABASE HANDLING
+   - Use Entity Framework Core
+   - Implement code-first approach
+   - Create proper database migrations
+   - Use async/await for all database operations
+
+4. CODE ORGANIZATION
+   Models/
+   ├── User.cs
+   ├── Job.cs
+   ├── Company.cs
+   └── Application.cs
+   
+   Controllers/
+   ├── AccountController.cs
+   ├── JobController.cs
+   └── ApplicationController.cs
+   
+   Views/
+   ├── Shared/
+   ├── Account/
+   ├── Job/
+   └── Application/
+
+5. REQUIRED NAMESPACES
+   using Microsoft.AspNetCore.Mvc;
+   using Microsoft.AspNetCore.Identity;
+   using Microsoft.EntityFrameworkCore;
+   using System.Threading.Tasks;
+
+CORE FEATURE IMPLEMENTATIONS
+--------------------------
+1. Authentication System
+   - Registration
+   - Login
+   - Role-based authorization
+   - Secure password handling
+
+2. Job Management
+   - CRUD operations
+   - Search functionality
+   - Pagination
+   - File uploads
+
+3. Application Processing
+   - Status tracking
+   - Email notifications
+   - Application history
+
+CODE EXAMPLES TO FOLLOW
+----------------------
+// Controller Example
+public class JobController : Controller
+{
+    private readonly IJobRepository _jobRepository;
+    
+    public JobController(IJobRepository jobRepository)
+    {
+        _jobRepository = jobRepository;
+    }
+    
+    public async Task<IActionResult> Index()
+    {
+        var jobs = await _jobRepository.GetAllAsync();
+        return View(jobs);
+    }
+}
+
+// Model Example
+public class Job
+{
+    public int Id { get; set; }
+    [Required]
+    public string Title { get; set; }
+    public string Description { get; set; }
+    public DateTime PostedDate { get; set; }
+    public int CompanyId { get; set; }
+    public virtual Company Company { get; set; }
+}
+
+// Repository Example
+public class JobRepository : IJobRepository
+{
+    private readonly ApplicationDbContext _context;
+    
+    public JobRepository(ApplicationDbContext context)
+    {
+        _context = context;
+    }
+    
+    public async Task<List<Job>> GetAllAsync()
+    {
+        return await _context.Jobs
+            .Include(j => j.Company)
+            .ToListAsync();
+    }
+}
+
+ERROR HANDLING REQUIREMENTS
+-------------------------
+1. Implement global exception handling
+2. Use proper HTTP status codes
+3. Create custom error pages
+4. Log all errors appropriately
+
+TESTING REQUIREMENTS
+-------------------
+1. Unit tests for all repositories
+2. Integration tests for controllers
+3. End-to-end testing for critical paths
+4. Security testing for authentication
+
+DEPLOYMENT CHECKLIST
+-------------------
+1. Configure production connection strings
+2. Enable error logging
+3. Implement health checks
+4. Set up proper CORS policies
+5. Configure app secrets properly
+
+PERFORMANCE REQUIREMENTS
+-----------------------
+1. Implement caching where appropriate
+2. Use async/await for I/O operations
+3. Optimize database queries
+4. Implement proper indexing
+
+DOCUMENTATION REQUIREMENTS
+------------------------
+1. XML comments for public methods
+2. README.md with setup instructions
+3. API documentation if applicable
+4. Database schema documentation
+
+VALIDATION RULES
+---------------
+1. Use Data Annotations
+2. Implement custom validators
+3. Server-side validation
+4. Client-side validation
+
+SECURITY PRACTICES
+-----------------
+1. Input validation
+2. XSS prevention
+3. CSRF protection
+4. SQL injection prevention
+5. Secure file uploads
+
+DO NOT IMPLEMENT
+---------------
+1. Custom authentication systems
+2. Direct SQL queries
+3. Sync database operations
+4. Hard-coded credentials
+5. Custom password hashing
+
+REQUIRED NUGET PACKAGES
+----------------------
+Microsoft.AspNetCore.Identity.EntityFrameworkCore
+Microsoft.EntityFrameworkCore.SqlServer
+Microsoft.EntityFrameworkCore.Tools
+AutoMapper.Extensions.Microsoft.DependencyInjection
+Serilog.AspNetCore
+
+END OF INSTRUCTION SET
+---------------------
+Follow these instructions strictly for production-grade C# ASP.NET Core implementation.
